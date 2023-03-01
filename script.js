@@ -136,10 +136,9 @@ function makeAComputerMove(handleClick)
         currentPlayer = !currentPlayer
         updateRoundText()
 
-        let hasEnded = checkEnd()
+        checkEnd()
+        isPCPlaying = false
     }, 1000)
-
-    isPCPlaying = false
 }  
 
 function updateOptions()
@@ -209,7 +208,7 @@ function addCellsListeners()
 
         cell.addEventListener('click', function handleClick() {
             if (isPCPlaying) return
-            
+
             piecesCont++
             pieces[xPos][yPos][zPos] = isXRound ? 1 : 2
 
