@@ -6,6 +6,7 @@ var isXRound = true
 var currentPlayer = true
 var pieces = []
 var piecesCont = 0
+var isPCPlaying = false
 
 function clearPieces()
 {
@@ -105,6 +106,8 @@ function clearBoard()
 
 function makeAComputerMove(handleClick)
 {
+    isPCPlaying = true
+
     setTimeout(function() {
         let emptyCells = []
         for (let i = 0; i < 3; i++)
@@ -135,6 +138,8 @@ function makeAComputerMove(handleClick)
 
         let hasEnded = checkEnd()
     }, 1000)
+
+    isPCPlaying = false
 }  
 
 function updateOptions()
@@ -203,6 +208,8 @@ function addCellsListeners()
         let yPos = Math.floor((i - 9*zPos)/3)
 
         cell.addEventListener('click', function handleClick() {
+            if (isPCPlaying) return
+            
             piecesCont++
             pieces[xPos][yPos][zPos] = isXRound ? 1 : 2
 
