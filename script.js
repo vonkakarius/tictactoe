@@ -105,34 +105,36 @@ function clearBoard()
 
 function makeAComputerMove(handleClick)
 {
-    let emptyCells = []
-    for (let i = 0; i < 3; i++)
-      for (let j = 0; j < 3; j++)
-        for (let k = 0; k < 3; k++)
-            if (pieces[i][j][k] == 0)
-                emptyCells.push([i, j, k])
-  
-    let randomIndex = Math.floor(Math.random() * emptyCells.length)
-    let pos = emptyCells[randomIndex]
+    setTimeout(function() {
+        let emptyCells = []
+        for (let i = 0; i < 3; i++)
+        for (let j = 0; j < 3; j++)
+            for (let k = 0; k < 3; k++)
+                if (pieces[i][j][k] == 0)
+                    emptyCells.push([i, j, k])
+    
+        let randomIndex = Math.floor(Math.random() * emptyCells.length)
+        let pos = emptyCells[randomIndex]
 
-    piecesCont++
-    pieces[pos[0]][pos[1]][pos[2]] = isXRound ? 1 : 2
+        piecesCont++
+        pieces[pos[0]][pos[1]][pos[2]] = isXRound ? 1 : 2
 
-    // Entrada da nova peça
-    let cell = board.querySelectorAll('.cell')[9*pos[2] + 3*pos[1] + pos[0]]
-    const zIndex = getComputedStyle(cell).getPropertyValue('z-index')
-    let piece = isXRound ? newXPiece(zIndex) : newOPiece(zIndex)
-    cell.appendChild(piece)
-    piece = cell.lastChild
-    let currentTransform = getComputedStyle(piece).getPropertyValue('transform')
-    piece.style.transform = isXRound ? `${currentTransform} translateX(-700px)` : `${currentTransform} translateY(700px)`
+        // Entrada da nova peça
+        let cell = board.querySelectorAll('.cell')[9*pos[2] + 3*pos[1] + pos[0]]
+        const zIndex = getComputedStyle(cell).getPropertyValue('z-index')
+        let piece = isXRound ? newXPiece(zIndex) : newOPiece(zIndex)
+        cell.appendChild(piece)
+        piece = cell.lastChild
+        let currentTransform = getComputedStyle(piece).getPropertyValue('transform')
+        piece.style.transform = isXRound ? `${currentTransform} translateX(-700px)` : `${currentTransform} translateY(700px)`
 
-    cell.removeEventListener('click', handleClick)
-    isXRound = !isXRound
-    currentPlayer = !currentPlayer
-    updateRoundText()
+        cell.removeEventListener('click', handleClick)
+        isXRound = !isXRound
+        currentPlayer = !currentPlayer
+        updateRoundText()
 
-    let hasEnded = checkEnd()
+        let hasEnded = checkEnd()
+    }, 1000)
 }  
 
 function updateOptions()
@@ -303,7 +305,7 @@ function checkEnd()
     let winnerNum = getWinner()
 
     if (winnerNum)
-        message.innerHTML = (!currentPlayer) ? 'O JOGADOR 1 VENCEU!' : (isPvP ? 'O JOGADOR 2 VENCEU!' : 'O COMPUTADOR VENCEU!')
+        message.innerHTML = (!currentPlayer) ? (isPvP ? 'O JOGADOR 1 VENCEU!' : 'VOCÊ VENCEU!') : (isPvP ? 'O JOGADOR 2 VENCEU!' : 'O COMPUTADOR VENCEU!')
     else if (piecesCont == 27)
         message.innerHTML = 'DEU VELHA!'
     else
